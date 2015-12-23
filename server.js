@@ -1,4 +1,4 @@
-module.exports = function (express, config) {
+module.exports = ['express', 'config', function (express, config) {
 	
 	var
 		app = express();
@@ -9,4 +9,4 @@ module.exports = function (express, config) {
 
 	app.listen(config.port);
 
-}
+}]

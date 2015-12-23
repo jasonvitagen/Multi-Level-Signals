@@ -35,10 +35,17 @@ Container.prototype.get = function (name) {
 
 Container.prototype.inject = function (factory) {
 	var
-		args = argsList(factory)
-		, dependencies = args.map(function (dependency) {
-			return this.get(dependency);
-		}.bind(this));
+		args
+		, dependencies;
+	if (Object.prototype.toString.call(factory) == '[object Array]') {
+		args = factory.slice(0, -1);
+		factory = factory.pop();
+	} else {
+		args = argsList(factory);
+	}
+	dependencies = args.map(function (dependency) {
+		return this.get(dependency);
+	}.bind(this));
 	return factory.apply(null, dependencies);
 }
 
@@ -65,7 +72,8 @@ Container.prototype.includeFiles = function (files) {
 		var
 			fileName = path.basename(file, '.js')
 			, fileContent = require(path.resolve(file));
-		if (Object.prototype.toString.call(fileContent) == '[object Function]') {
+		if (Object.prototype.toString.call(fileContent) == '[object Function]'
+			|| Object.prototype.toString.call(fileContent) == '[object Array]') {
 			return this.factory(fileName, fileContent);
 		}
 		this.value(fileName, fileContent);
