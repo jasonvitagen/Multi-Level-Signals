@@ -50,6 +50,8 @@ Container.prototype.inject = function (factory) {
 }
 
 Container.prototype.includeFolder = function (folders, options) {
+	var
+		fileNames = [];
 	folders.forEach(function (folder) {
 		fs.readdirSync(folder)
 			.filter(function (file) {
@@ -59,9 +61,11 @@ Container.prototype.includeFolder = function (folders, options) {
 				var
 					fileName = path.basename(file, '.js')
 					, fileContent = require(path.resolve(folder, file));
-				if (options.addPrefix) {
+				if (options
+					&& options.addPrefix) {
 					fileName = folder + '.' + fileName;
 				}
+				fileNames.push(fileName);
 				if (Object.prototype.toString.call(fileContent) == '[object Function]'
 					|| Object.prototype.toString.call(fileContent) == '[object Array]') {
 					return this.factory(fileName, fileContent);
@@ -69,6 +73,11 @@ Container.prototype.includeFolder = function (folders, options) {
 				this.value(fileName, fileContent);
 			}.bind(this));
 	}.bind(this));
+	if (options.initialize) {
+		fileNames.forEach(function (fileName) {
+			this.get(fileName);
+		}.bind(this));
+	}
 }
 
 Container.prototype.includeFiles = function (files) {

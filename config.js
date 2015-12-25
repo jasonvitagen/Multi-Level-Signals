@@ -1,7 +1,23 @@
 module.exports = {
-	port : 3090,
-	staticPath : 'public',
-	staticMaxAge : 0,
+	'port' : 3090,
+	'staticPath' : 'public',
+	'staticMaxAge' : 0,
 	'urlencoded.limit' : '1mb',
-	'jsonencoded.limit' : '1mb'
+	'jsonencoded.limit' : '1mb',
+	"logPath" : "logs",
+	"logFile" : "logs.log",
+	"mongodb.databaseUrl"  : "mongodb://127.0.0.1:27017/signals",
+	"mongodb.databaseName" : "signals",
+	"auth.google.clientID"     : "1088557290877-k1h93vl0kvdjkrn3rurc50dbt66g8gbr.apps.googleusercontent.com",
+	"auth.google.clientSecret" : "spv_ZDhNRvQhMcKTdgYYQcES",
+	"auth.google.callbackURL"  : "/auth/google/return",
+	"auth.google.successRedirect" : "/auth/oauth-success",
+	"auth.facebook.clientID"     : "1139553276073524",
+	"auth.facebook.clientSecret" : "cb02a0964ec1891c2d6a743dba0d30ec",
+	"auth.facebook.callbackURL"  : "/auth/facebook/return",
+	"auth.facebook.successRedirect" : "/auth/oauth-success",
+	"auth.signOutRedirect" : "/",
+	"session.secret" : "1FRlUu7Jledo1JOp6otFhCIFddUHEY2m",
+	"session.maxAge" : 604800000,
+	"session.name" : "signals"
 }
