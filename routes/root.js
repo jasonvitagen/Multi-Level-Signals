@@ -1,11 +1,12 @@
 module.exports = [	'express',
-					'path', function (express, path) {
+					'path',
+					'config', function (express, path, config) {
 
 	var
 		router = express.Router();
 
 	router.get('/', function (req, res) {
-		res.sendFile('root.html', { root : path.join(__dirname, '../public', 'html') });
+		res.render('root', { title : ['Home', config.siteName].join(' | ') });
 	});
 
 	return router;

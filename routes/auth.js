@@ -17,7 +17,7 @@ module.exports = [	'express',
 	}));
 
 	router.get('/local-signup', function (req, res) {
-		res.render('local-signup', {});
+		res.render('auth/local-signup', { title : ['Sign Up', config.siteName].join(' | ') });
 	});
 
 	router.post('/local-signup', function (req, res, next) {

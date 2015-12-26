@@ -3,7 +3,7 @@ module.exports = [	'mongojs',
 
 	var
 		databaseUrl = config['mongodb.databaseUrl']
-		, db = mongojs(databaseUrl, []);
+		, db = mongojs(databaseUrl, ['User']);
 
 	db.on('error', function (err) {
 		console.log(err);

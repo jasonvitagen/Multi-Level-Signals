@@ -10,7 +10,8 @@ module.exports = [	'express',
 					'middlewares.htmlSanitizer',
 					'express-session',
 					'connect-redis',
-					'setup.redisClient', function (express, config, path, morgan, rootRoute, authRoute, ejs, bodyParser, cookieParser, htmlSanitizer, session, connectRedis, redisClient) {
+					'setup.redisClient',
+					'passport', function (express, config, path, morgan, rootRoute, authRoute, ejs, bodyParser, cookieParser, htmlSanitizer, session, connectRedis, redisClient, passport) {
 
 	var
 		app = express()
@@ -42,6 +43,8 @@ module.exports = [	'express',
 		})
 	}));
 
+	app.use(passport.initialize());
+	app.use(passport.session());
 
 	app.use(express.static(path.join(__dirname, config.staticPath), {
 		maxAge : config.staticMaxAge
@@ -57,7 +60,7 @@ module.exports = [	'express',
 				.json({
 					msg : err.message,
 					err : err
-				})
+				});
 		});
 	}
 
