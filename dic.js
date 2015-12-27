@@ -35,10 +35,12 @@ Container.prototype.get = function (name) {
 
 Container.prototype.inject = function (factory) {
 	var
-		args
+		args = []
 		, dependencies;
 	if (Object.prototype.toString.call(factory) == '[object Array]') {
-		args = factory.slice(0, -1);
+		if (factory.length > 1) {
+			args = factory.slice(0, -1);
+		}
 		factory = factory.pop();
 	} else {
 		args = argsList(factory);

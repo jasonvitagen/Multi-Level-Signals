@@ -1,6 +1,6 @@
 angular
 	.module('signals')
-	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', 'resources', '$window', '$filter', '$timeout', 'once', 'pubsub', function ($scope, $http, pubsub, config, $state, ngToast, $sce, resources, $window, $filter, $timeout, once, pubsub) {
+	.controller('rootCtrl', ['$scope', '$http', 'pubsub', 'config', '$state', 'ngToast', '$sce', 'resources', '$window', '$filter', '$timeout', 'once', 'pubsub', '$anchorScroll', '$location', function ($scope, $http, pubsub, config, $state, ngToast, $sce, resources, $window, $filter, $timeout, once, pubsub, $anchorScroll, $location) {
 		$scope.root = {};
 		$scope.root.templateUrl = config['templateUrl'];
 		$scope.$state = $state;
@@ -48,6 +48,12 @@ angular
 		$window.successRedirect = function () {
 			pubsub.publish('ajaxResponse', { code : 'successSignIn' });
 			$state.go($state.from.name || config['successSignInRedirectToState'], $state.from.params);
+		}
+		$scope.scrollTo = function (id) {
+			var old = $location.hash();
+			$location.hash(id);
+			$anchorScroll();
+			$location.hash(old);
 		}
 	}])
 	.controller('homeCtrl', ['$scope', 'resources', 'config', 'ngToast', '$sce', function ($scope, resources, config, ngToast, $sce) {

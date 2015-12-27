@@ -4,14 +4,16 @@ module.exports = [	'express',
 					'morgan',
 					'routes.root',
 					'routes.auth',
+					'routes.template',
 					'ejs',
 					'body-parser',
 					'cookie-parser',
 					'middlewares.htmlSanitizer',
+					'middlewares.addUser',
 					'express-session',
 					'connect-redis',
 					'setup.redisClient',
-					'passport', function (express, config, path, morgan, rootRoute, authRoute, ejs, bodyParser, cookieParser, htmlSanitizer, session, connectRedis, redisClient, passport) {
+					'passport', function (express, config, path, morgan, rootRoute, authRoute, templateRoute, ejs, bodyParser, cookieParser, htmlSanitizer, addUser, session, connectRedis, redisClient, passport) {
 
 	var
 		app = express()
@@ -46,12 +48,15 @@ module.exports = [	'express',
 	app.use(passport.initialize());
 	app.use(passport.session());
 
+	app.use(addUser);
+
 	app.use(express.static(path.join(__dirname, config.staticPath), {
 		maxAge : config.staticMaxAge
 	}));
 
 	app.use('/', rootRoute);
 	app.use('/auth', authRoute);
+	app.use('/template', templateRoute);
 
 	if (app.get('env') === 'development') {
 		app.use(function (err, req, res, next) {
