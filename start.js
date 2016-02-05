@@ -1,7 +1,7 @@
 var
 	container = require('./dic')();
 
-container.includeFolder(['modules', 'setup', 'middlewares'], true);
+container.includeFolder(['modules', 'setup', 'middlewares'], { prefixFolderName : true });
 
 container.includeFiles(['server', 'config']);
 

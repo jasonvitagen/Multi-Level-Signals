@@ -35,12 +35,10 @@ Container.prototype.get = function (name) {
 
 Container.prototype.inject = function (factory) {
 	var
-		args = []
+		args
 		, dependencies;
 	if (Object.prototype.toString.call(factory) == '[object Array]') {
-		if (factory.length > 1) {
-			args = factory.slice(0, -1);
-		}
+		args = factory.slice(0, -1);
 		factory = factory.pop();
 	} else {
 		args = argsList(factory);
@@ -51,7 +49,7 @@ Container.prototype.inject = function (factory) {
 	return factory.apply(null, dependencies);
 }
 
-Container.prototype.includeFolder = function (folders, folderNamePrefix) {
+Container.prototype.includeFolder = function (folders, options) {
 	var
 		fileNames = [];
 	folders.forEach(function (folder) {
@@ -63,11 +61,11 @@ Container.prototype.includeFolder = function (folders, folderNamePrefix) {
 				var
 					fileName = path.basename(file, '.js')
 					, fileContent = require(path.resolve(folder, file));
-				if (folderNamePrefix) {
+				if (options
+					&& options.prefixFolderName) {
 					fileName = folder + '.' + fileName;
 				}
-				if (Object.prototype.toString.call(fileContent) == '[object Function]'
-					|| Object.prototype.toString.call(fileContent) == '[object Array]') {
+				fileNames.push(fileName);
 				if (Object.prototype.toString.call(fileContent) == '[object Function]'
 					|| Object.prototype.toString.call(fileContent) == '[object Array]') {
 					return this.factory(fileName, fileContent);

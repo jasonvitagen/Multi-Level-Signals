@@ -20,6 +20,6 @@
     "winston": "^2.1.1"
   },
   "scripts": {
-    "start": "nodemon root.js"
+    "start": "nodemon start.js"
   }
 }
