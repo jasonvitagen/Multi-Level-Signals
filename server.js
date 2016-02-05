@@ -14,6 +14,7 @@ module.exports = [	'express'
 					, 'middlewares.htmlSanitizer'
 					, 'ejs'
 					, 'setup.passport'
+					, 'routes.auth'
 					, function (express 
 								, config
 								, logger
@@ -29,7 +30,8 @@ module.exports = [	'express'
 								, redisClient
 								, htmlSanitizer
 								, ejs
-								, setupPassport) {
+								, setupPassport
+								, authRoute) {
 
 	var
 		app = express()
@@ -62,6 +64,9 @@ module.exports = [	'express'
 	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
+
+	app.use('/auth', authRoute);
+
 	if (!fs.existsSync(path.join(__dirname, config.staticPath))) { // check and create static directory
 		fs.mkdirSync(path.join(__dirname, config.staticPath));
 	}
