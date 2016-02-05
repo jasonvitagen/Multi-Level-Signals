@@ -1,0 +1,25 @@
+<% include ../layouts/header.ejs %>
+
+<form method="POST" name="signUpForm" id="signup-form" ng-submit="signUp($event, form)" ng-class='displayValidation ? "display-validation" : ""' novalidate>
+	<div class="form-group">
+		<label for="email">Email</label>
+		<input type="text" name="email" id="email" class="form-control" ng-model="form.email" focus-on-load required ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/">
+		<span class="validation-message" ng-show="signUpForm.email.$error.required">This field is required<br></span>
+		<span class="validation-message" ng-show="signUpForm.email.$error.pattern">Please enter a valid email</span> <br>
+	</div>
+	<div class="form-group">
+		<label for="password">Password</label>
+		<input type="password" name="password" id="password" class="form-control" ng-model="form.password" required>
+		<span class="validation-message" ng-show="signUpForm.password.$error.required">This field is required</span> <br>
+	</div>
+	<div class="form-group">
+		<label for="confirmPassword">Confirm Password</label>
+		<input type="password" name="confirmPassword" id="confirmPassword" class="form-control" ng-model="form.confirmPassword" required ng-pattern="form.password">
+		<span class="validation-message" ng-show="signUpForm.confirmPassword.$error.required">This field is required<br></span>
+		<span class="validation-message" ng-show="signUpForm.confirmPassword.$error.pattern">Passwords have to match</span><br>
+
+	</div>
+	<input type="submit" value="Sign Up" id="submit" class="btn btn-default" ng-disabled="displayValidation && signUpForm.$invalid">
+</form>
+
+<% include ../layouts/footer.ejs %>

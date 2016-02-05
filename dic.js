@@ -35,10 +35,12 @@ Container.prototype.get = function (name) {
 
 Container.prototype.inject = function (factory) {
 	var
-		args
+		args = []
 		, dependencies;
 	if (Object.prototype.toString.call(factory) == '[object Array]') {
-		args = factory.slice(0, -1);
+		if (factory.length > 1) {
+			args = factory.slice(0, -1);
+		}
 		factory = factory.pop();
 	} else {
 		args = argsList(factory);
@@ -50,6 +52,8 @@ Container.prototype.inject = function (factory) {
 }
 
 Container.prototype.includeFolder = function (folders, folderNamePrefix) {
+	var
+		fileNames = [];
 	folders.forEach(function (folder) {
 		fs.readdirSync(folder)
 			.filter(function (file) {
@@ -64,11 +68,18 @@ Container.prototype.includeFolder = function (folders, folderNamePrefix) {
 				}
 				if (Object.prototype.toString.call(fileContent) == '[object Function]'
 					|| Object.prototype.toString.call(fileContent) == '[object Array]') {
+				if (Object.prototype.toString.call(fileContent) == '[object Function]'
+					|| Object.prototype.toString.call(fileContent) == '[object Array]') {
 					return this.factory(fileName, fileContent);
 				}
 				this.value(fileName, fileContent);
 			}.bind(this));
 	}.bind(this));
+	if (options.initialize) {
+		fileNames.forEach(function (fileName) {
+			this.get(fileName);
+		}.bind(this));
+	}
 }
 
 Container.prototype.includeFiles = function (files) {

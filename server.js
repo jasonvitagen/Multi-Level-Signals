@@ -30,7 +30,7 @@ module.exports = [	'express'
 								, htmlSanitizer
 								, ejs
 								, setupPassport) {
-	
+
 	var
 		app = express()
 		, RedisStore = connectRedis(session);
@@ -86,6 +86,11 @@ module.exports = [	'express'
 		res
 			.status(err.status || 500)
 			.send(err.message);
+		res
+			.status(err.status || 500)
+			.json({
+				msg : err.message
+			});
 	});
 
 	app.listen(config.port);

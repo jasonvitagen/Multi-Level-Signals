@@ -1,0 +1,8 @@
+.btn-social {
+	display: block;
+	text-align: center;
+	padding: 12px;
+}
+.btn-social>:first-child {
+	top: 4px;
+}
