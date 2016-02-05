@@ -49,7 +49,7 @@ Container.prototype.inject = function (factory) {
 	return factory.apply(null, dependencies);
 }
 
-Container.prototype.includeFolder = function (folders) {
+Container.prototype.includeFolder = function (folders, folderNamePrefix) {
 	folders.forEach(function (folder) {
 		fs.readdirSync(folder)
 			.filter(function (file) {
@@ -59,7 +59,11 @@ Container.prototype.includeFolder = function (folders) {
 				var
 					fileName = path.basename(file, '.js')
 					, fileContent = require(path.resolve(folder, file));
-				if (Object.prototype.toString.call(fileContent) == '[object Function]') {
+				if (folderNamePrefix) {
+					fileName = folder + '.' + fileName;
+				}
+				if (Object.prototype.toString.call(fileContent) == '[object Function]'
+					|| Object.prototype.toString.call(fileContent) == '[object Array]') {
 					return this.factory(fileName, fileContent);
 				}
 				this.value(fileName, fileContent);
